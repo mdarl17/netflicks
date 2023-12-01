@@ -42,4 +42,10 @@ RSpec.describe "Directors Index Page" do
     end
   end
 
+  it "has a link to the movies index page" do 
+    visit "/directors" 
+
+    expect(page).to have_link("movies")
+  end
+
 end 
