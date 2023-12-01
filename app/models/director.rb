@@ -7,7 +7,12 @@ class Director < ApplicationRecord
     "#{name_arr.last} #{name_arr.slice(0..len).join(" ").delete(",")}"
   end
 
+  def movie_count 
+    movies.count
+  end
+
   def self.sort_by_created_at 
     select("directors.*").order("created_at DESC")
   end
+
 end
