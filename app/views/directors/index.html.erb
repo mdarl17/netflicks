@@ -1,4 +1,6 @@
 <h1 style="text-decoration:underline">Director List</h1>
-<% @directors.each do |director| %>
-  <p><%= director.name %></p>
+<% @directors.sort_by_created_at.each do |director| %>
+  <p id=<%= "index-#{director.id}" %>>
+    <%= "#{director.name}" %> &nbsp&nbsp&nbsp <%= "#{director.created_at}" %>
+  </p>
 <% end %>
