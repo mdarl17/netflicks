@@ -1,0 +1,12 @@
+<h1><%= "#{@director.format_name} Movies" %></h1>
+  <% @movies.each do |movie| %>
+<section id=<%="director-movies-#{movie.id}"%>>
+    <h3><%= movie.format_title %></h3>
+    <p>Released: <%= movie.released %></p>
+    <p>Rating: <%= movie.rating %></p>
+    <p>Sex: <%= movie.sex %></p>
+    <p>Nudity: <%= movie.nudity %></p>
+    <p>Violence: <%= movie.violence %></p>
+    <br>
+</section>
+  <% end %>
