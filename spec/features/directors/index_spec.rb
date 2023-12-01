@@ -40,8 +40,6 @@ RSpec.describe "Directors Index Page" do
         expect(page).to have_content(director.created_at)
       end
     end
-
-    save_and_open_page
   end
 
 end 
