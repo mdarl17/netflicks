@@ -8,6 +8,8 @@ class Movie < ApplicationRecord
       t_arr = title.split(", ")
       len = t_arr.length - 2
       "#{t_arr.last} #{t_arr.slice(0..len).join(" ").delete(",")}"
+    else
+      return title
     end
   end
 
