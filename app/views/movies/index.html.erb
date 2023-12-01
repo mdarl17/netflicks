@@ -1,0 +1,11 @@
+<h1 style="text-decoration:underline">Movie List</h1>
+<br>
+<% @movies.each do |movie| %>
+  <h3><%= movie.title %></h3>
+  <p>Released: <%= movie.released %></p>
+  <p>Rating: <%= movie.rating %></p>
+  <p>Sex: <%= movie.sex %></p>
+  <p>Nudity: <%= movie.nudity %></p>
+  <p>Violence: <%= movie.violence %></p>
+  <br>
+<% end %>
