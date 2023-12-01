@@ -1,4 +1,4 @@
 <h1 style="text-decoration:underline">Director Details</h1>
-<h3><%= "#{@director.name.split(" ").last} " "#{@director.name.split(" ").first.match(/\w+/i)}" %></h3>
+<h3><%= @director.format_name %></h3>
 <p>Years Active: <%= @director.years_active %></p>
 <p>Best Director Oscar: <%= @director.best_director %></p>
