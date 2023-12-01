@@ -44,10 +44,10 @@ RSpec.describe "Director Movies Index Page" do
     visit "/directors/#{@kubrick.id}/movies"
     
     expect(page).to have_link("movies")
-    
-    visit "/directors/#{@spielberg.id}/movies"
-    
-    expect(page).to have_link("movies")
+
+    click_link "movies" 
+
+    expect(current_path).to eq("/movies")
   end
   
 end 
