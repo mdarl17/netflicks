@@ -12,14 +12,15 @@ class DirectorsController < ApplicationController
   end
 
   def create 
-    director = Director.create!({name: params[:name], years_active: params[:years_active], best_director: params[:best_director]})
-
-    unless director
+    director = Director.new({name: params[:name], years_active: params[:years_active], best_director: params[:best_director]})
+    
+    if director.save
+      flash[:notice] = "New director created."
+      redirect_to "/directors"
+    else
       flash[:notice] = "Sorry, something went wrong. Please try again."
       redirect_to "/directors/new"
     end
-    
-    flash[:notice] = "New director created."
-    redirect_to "/directors"
   end
+
 end
