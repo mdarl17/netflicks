@@ -9,7 +9,7 @@ RSpec.describe "Director Show Page" do
     @space_odyssey = Movie.create!(title: "2001: A Space Odyssey", released: 1968, rating: 0, sex: false, nudity: false, violence: false, director_id: @kubrick.id)
     @close_encounters = Movie.create!(title: "Close Encounters of the Third Kind", released: 1977, rating: 1, sex: false, nudity: false, violence: false, director_id: @spielberg.id)
     @jaws = Movie.create!(title: "Jaws", released: 1975, rating: 1, sex: false, nudity: false, violence: true, director_id: @spielberg.id)  
-   end
+  end
 
   it "given an id, it displays a parent and that parent's attributes" do 
 
@@ -46,6 +46,21 @@ RSpec.describe "Director Show Page" do
     click_link "directors" 
 
     expect(current_path).to eq("/directors")
+  end
+
+  it "has a link to the director's movies index page" do 
+    visit "/directors/#{@kubrick.id}"
+
+    expect(page).to have_link("stanley kubrick movies")
+    
+    click_link "kubrick movies" 
+    
+    expect(current_path).to eq("/directors/#{@kubrick.id}/movies")
+
+    expect(page).to have_content("Stanley Kubrick Movies")
+    expect(page).to have_content("Dr. Strangelove")
+    expect(page).to have_content("The Shining")
+    expect(page).to have_content("2001: A Space Odyssey")
   end
   
 end 
