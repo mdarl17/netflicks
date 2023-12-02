@@ -12,6 +12,7 @@
 
   <body>
     <%= link_to "movies", movies_path %> &nbsp | &nbsp <%= link_to "directors", directors_path %>
+    <h4><%= flash[:notice] %></h4>
     <%= yield %>
   </body>
 </html>
