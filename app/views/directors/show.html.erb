@@ -1,3 +1,4 @@
+&nbsp | &nbsp <%= link_to "#{@director.format_name.downcase} movies", "/directors/#{@director.id}/movies" %>
 <h1 style="text-decoration:underline">Director Details</h1>
 <h3><%= @director.format_name %></h3>
 <p>Movie Count: <%= @director.movie_count %>
