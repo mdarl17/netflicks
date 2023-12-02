@@ -52,4 +52,20 @@ RSpec.describe "Directors Index Page" do
     expect(current_path).to eq("/movies")
   end
 
+  describe "creating a new director" do 
+    it "has a link to create a new director" do 
+      visit "/directors"
+  
+      expect(page).to have_link("New Director") 
+    end
+
+    it "when the new director link is clicked users are redirected to a form to create a new director" do 
+      visit "/directors"
+
+      click_link("New Director") 
+      expect(current_path).to eq("/directors/new")
+      expect(page).to have_content("New Director")
+    end 
+  end
+  
 end 
