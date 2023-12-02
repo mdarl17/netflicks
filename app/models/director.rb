@@ -1,6 +1,10 @@
 class Director < ApplicationRecord 
   has_many :movies
 
+  validates :name, presence: true, format: { with: /[a-zA-Z]/ }
+  validates :years_active,  presence: true, numericality: { only_integer: true }
+  validates :best_director, inclusion: [true, false]
+
   def format_name 
     name_arr = name.split(", ")
     len = name_arr.length - 2
