@@ -56,4 +56,15 @@ RSpec.describe "Movies Index Page" do
     expect(page).to have_content("Nudity: false")
     expect(page).to have_content("Violence: true")
   end
+
+  it "has a link to the directors index page" do 
+    visit "/movies"
+
+    expect(page).to have_link("directors")
+
+    click_link "directors" 
+
+    expect(current_path).to eq("/directors")
+  end
+
 end 
