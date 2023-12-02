@@ -2,9 +2,13 @@ require "rails_helper"
 
 RSpec.describe Director do 
   before(:each) do 
-    @kubrick = Director.create!({name: "Kubrick, Stanley", years_active: 47, best_director: false})
-    @anderson = Director.create!({name: "Anderson, Paul Thomas", years_active: 25, best_director: false})
-    @spielberg = Director.create!({name: "Spielberg, Steven", years_active: 56, best_director: true})
+    @kubrick = Director.create!({name: "Kubrick, Stanley", years_active: 47, best_director: false, created_at: Date.today - 3})
+    @anderson = Director.create!({name: "Anderson, Paul Thomas", years_active: 25, best_director: false, created_at: Date.today - 5})
+    @nolan = Director.create!({name: "Nolan, Christopher", years_active: 19, best_director: false, created_at: Date.today - 1})
+    @spielberg = Director.create!({name: "Spielberg, Steven", years_active: 56, best_director: true, created_at: Date.today})
+    @scorcese = Director.create!({name: "Scorcese, Martin", years_active: 51, best_director: true, created_at: Date.today - 4})
+    @tarantino = Director.create!({name: "Tarantino, Quentin", years_active: 25, best_director: false, created_at: Date.today - 2})
+
     @strangelove = Movie.create!(title: "Dr. Strangelove", released: 1964, rating: 1, sex: false, nudity: false, violence: false, director_id: @kubrick.id)
     @shining = Movie.create!(title: "Shining, The", released: 1980, rating: 2, sex: false, nudity: true, violence: true, director_id: @kubrick.id)
     @space_odyssey = Movie.create!(title: "2001: A Space Odyssey", released: 1968, rating: 0, sex: false, nudity: false, violence: false, director_id: @kubrick.id)
@@ -31,6 +35,14 @@ RSpec.describe Director do
         expect(@kubrick.movie_count).to eq(3)
         expect(@anderson.movie_count).to eq(1)
         expect(@spielberg.movie_count).to eq(2)
+      end
+    end
+  end
+
+  describe "class methods" do 
+    describe "#sort_by_created_at" do 
+      it "sorts directors by when they were created, with the most recently created ones first" do 
+        expect(Director.sort_by_created_at).to eq([@spielberg, @nolan, @tarantino, @kubrick, @scorcese, @anderson])
       end
     end
   end
