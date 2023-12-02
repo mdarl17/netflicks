@@ -30,4 +30,14 @@ RSpec.describe "Movie Show Page" do
     expect(current_path).to eq("/movies")
   end
 
+  it "has a link to the directors index page" do 
+    visit "/movies/#{@shining.id}"
+
+    expect(page).to have_link("directors")
+
+    click_link "directors" 
+
+    expect(current_path).to eq("/directors")
+  end
+
 end 
