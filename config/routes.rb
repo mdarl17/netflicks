@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get "/movies/:id", to: "movies#show"
 
   get "/directors", to: "directors#index"
+  post "/directors", to: "directors#create"
+  get "/directors/new", to: "directors#new"
   get "/directors/:id", to: "directors#show"
   get "/directors/:id/movies", to: "director_movies#index"
 end
