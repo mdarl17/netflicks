@@ -4,7 +4,7 @@ class Director < ApplicationRecord
   validates :name, format: { with: /[a-zA-Z]/ }
   validates :years_active, numericality: { only_integer: true }
   validates :best_director, inclusion: [true, false]
-  validates :name, :years_active, :best_director, presence: true
+  validates :name, :years_active, presence: true
 
   def format_name 
     name_arr = name.split(", ")
