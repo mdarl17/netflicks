@@ -1,5 +1,6 @@
-&nbsp | &nbsp <%= link_to "#{@director.format_name.downcase} movies", "/directors/#{@director.id}/movies" %>
 <h1 style="text-decoration:underline">Director Details</h1>
+<%= link_to "Update Director", "/directors/#{@director.id}/edit" %>
+&nbsp | &nbsp <%= link_to "#{@director.format_name.titleize} movies", "/directors/#{@director.id}/movies" %>
 <h3><%= @director.format_name %></h3>
 <p>Movie Count: <%= @director.movie_count %>
 <p>Years Active: <%= @director.years_active %></p>
