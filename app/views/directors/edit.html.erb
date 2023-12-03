@@ -1,0 +1,10 @@
+<h1>Update <%= "#{@director.format_name}'s Bio" %></h1>
+<%= form_with url: "/directors/#{@director.id}", method: :patch, data: {turbo: false}, local: true do |f| %>
+  <%= f.label "Name" %>
+  <%= f.text_field :name, value:@director.name %>
+  <%= f.label "Years active" %>
+  <%= f.text_field :years_active, value:@director.years_active %>
+  <%= f.label "Best director" %>
+  <%= f.text_field :best_director, value:@director.best_director %>
+  <%= f.submit "Update" %>
+<% end  %>
