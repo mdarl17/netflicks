@@ -51,9 +51,9 @@ RSpec.describe "Director Show Page" do
   it "has a link to the director's movies index page" do 
     visit "/directors/#{@kubrick.id}"
 
-    expect(page).to have_link("stanley kubrick movies")
+    expect(page).to have_link("Stanley Kubrick movies")
     
-    click_link "kubrick movies" 
+    click_link "Stanley Kubrick movies" 
     
     expect(current_path).to eq("/directors/#{@kubrick.id}/movies")
 
@@ -61,6 +61,15 @@ RSpec.describe "Director Show Page" do
     expect(page).to have_content("Dr. Strangelove")
     expect(page).to have_content("The Shining")
     expect(page).to have_content("2001: A Space Odyssey")
+  end
+
+  it "has an update link that redirects users to the Director Update Page" do 
+    visit "/directors/#{@spielberg.id}" 
+
+    expect(page).to have_link("Update Director")
+    click_link "Update Director" 
+    expect(current_path).to eq("/directors/#{@spielberg.id}/edit")
+    expect(page).to have_content("Update #{@spielberg.format_name}'s Bio")
   end
   
 end 
