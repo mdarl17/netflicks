@@ -23,4 +23,21 @@ class DirectorsController < ApplicationController
     end
   end
 
+  def edit 
+    @director = Director.find(params[:id])
+  end
+
+  def update 
+    # director = Director.update!({name: params[:name], years_active: params[:years_active], best_director: params[:best_director]})
+    director = Director.find(params[:id])
+
+    if director.update({name: params[:name], years_active: params[:years_active], best_director: params[:best_director]})
+      flash[:notice] = "The director's bio information has been successfully updated."
+      redirect_to "/directors/#{params[:id]}"
+    else
+      flash[:notice] = "Sorry, there was an error and the director's bio information was not updated. Please try updating again." 
+      redirect_to "/directors/#{director.id}/edit"
+    end
+  end
+
 end
