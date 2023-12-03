@@ -59,5 +59,16 @@ RSpec.describe "Director Movies Index Page" do
 
     expect(current_path).to eq("/directors")
   end
+
+  it "has a link to add a new movie" do 
+    visit "/directors/#{@spielberg.id}/movies" 
+
+    expect(page).to have_link("Create Movie")
+
+    click_link "Create Movie" 
+
+    expect(current_path).to eq("/directors/#{@spielberg.id}/movies/new")
+    expect(page).to have_content("Add a #{@spielberg.format_name} Movie")
+  end
   
-end 
+end
