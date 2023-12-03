@@ -1,0 +1,17 @@
+<h1><%= "Add a #{@director.format_name} Movie" %></h1>
+<%= form_with url: "/directors/#{@director.id}/movies", data: {turbo: false}, local: true do |f| %>
+  <%= f.label "Title" %>
+  <%= f.text_field :title %>
+  <%= f.label "Released" %>
+  <%= f.text_field :released %>
+  <%= f.label "Rating" %>
+  <%= f.text_field :rating %>
+  <%= f.label "Sex" %>
+  <%= f.text_field :sex %>
+  <%= f.label "Nudity" %>
+  <%= f.text_field :nudity %>
+  <%= f.label "Violence" %>
+  <%= f.text_field :violence %>
+
+  <%= f.submit "Create Movie" %>
+<% end  %>
