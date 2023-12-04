@@ -37,9 +37,9 @@ RSpec.describe Movie do
       end
     end
 
-    describe "#sort_alphabetically" do 
-      it "sorts movies alphbabetically by title" do 
-        expect(@kubrick.movies.sort_alphabetically).to eq([@space_odyssey, @strangelove, @eyes_wide_shut, @full_metal_jacket, @shining])
+    describe "#sort_movies" do 
+      it "sorts movies in a manner contingent on argument" do 
+        expect(@kubrick.movies.sort_movies("alpha")).to eq([@space_odyssey, @strangelove, @eyes_wide_shut, @full_metal_jacket, @shining])
       end
     end
   end
