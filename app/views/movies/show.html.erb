@@ -1,5 +1,6 @@
 <h1 style="text-decoration:underline">Movie Details</h1>
 <h3><%= @movie.format_title %></h3>
+<%= link_to "Update Movie", "/movies/#{@movie.id}/edit" %>
 <p>Released: <%= @movie.released %></p>
 <p>Rating: <%= @movie.rating %></p>
 <p>Sex: <%= @movie.sex %></p>
