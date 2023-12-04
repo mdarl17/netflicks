@@ -11,6 +11,9 @@ RSpec.describe Movie do
 
     @strangelove = Movie.create!(title: "Dr. Strangelove", released: 1964, rating: 1, sex: false, nudity: false, violence: false, director_id: @kubrick.id)
     @shining = Movie.create!(title: "Shining, The", released: 1980, rating: 2, sex: false, nudity: true, violence: true, director_id: @kubrick.id)
+    @eyes_wide_shut = Movie.create!(title: "Eyes Wide Shut", released: 1999, rating: 3, sex: true, nudity: true, violence: false, director_id: @kubrick.id)
+    @full_metal_jacket = Movie.create!(title: "Full Metal Jacket", released: 1987, rating: 3, sex: true, nudity: true, violence: true, director_id: @kubrick.id)
+    @space_odyssey = Movie.create!(title: "2001: A Space Odyssey", released: 1968, rating: 0, sex: false, nudity: false, violence: false, director_id: @kubrick.id)
     @jaws = Movie.create!(title: "Jaws", released: 1975, rating: 1, sex: false, nudity: false, violence: false, director_id: @spielberg.id)
     @dark_knight = Movie.create!(title: "Dark Knight, The", released: 2008, rating: 2, sex: false, nudity: false, violence: true, director_id: @nolan.id)
     @goodfellas = Movie.create!(title: "Goodfellas", released: 1990, rating: 3, sex: true, nudity: true, violence: true, director_id: @scorcese.id)
@@ -24,13 +27,19 @@ RSpec.describe Movie do
   describe "class methods" do 
     describe "#adult_content" do 
       it "returns only movies that contain adult content" do 
-        expect(Movie.adult_content).to eq([@shining, @goodfellas, @pulp_fiction])
+        expect(Movie.adult_content).to eq([@shining, @eyes_wide_shut, @full_metal_jacket, @goodfellas, @pulp_fiction])
       end
     end
 
     describe "#violent" do 
       it "returns only movies that contain violence" do 
-        expect(Movie.violence).to eq([@shining, @dark_knight, @goodfellas, @pulp_fiction])
+        expect(Movie.violence).to eq([@shining,@full_metal_jacket, @dark_knight, @goodfellas, @pulp_fiction])
+      end
+    end
+
+    describe "#sort_alphabetically" do 
+      it "sorts movies alphbabetically by title" do 
+        expect(@kubrick.movies.sort_alphabetically).to eq([@space_odyssey, @strangelove, @eyes_wide_shut, @full_metal_jacket, @shining])
       end
     end
   end
