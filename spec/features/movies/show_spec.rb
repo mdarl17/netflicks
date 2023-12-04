@@ -40,4 +40,16 @@ RSpec.describe "Movie Show Page" do
     expect(current_path).to eq("/directors")
   end
 
+  it "has a link to update a movie" do 
+    visit "/movies/#{@close_encounters.id}"
+
+    expect(page).to have_link("Update Movie")
+
+    click_link("Update Movie")
+
+    expect(current_path).to eq("/movies/#{@close_encounters.id}/edit") 
+
+    expect(page).to have_content("Edit #{@close_encounters.title}")
+  end
+
 end 
