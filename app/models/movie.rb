@@ -27,4 +27,8 @@ class Movie < ApplicationRecord
     where(violence: true)
   end
 
+  def self.sort_alphabetically 
+    self.select("movies.*").order(:title)
+  end
+
 end
