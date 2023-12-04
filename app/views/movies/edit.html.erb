@@ -1,0 +1,16 @@
+<h1><%= "Edit #{@movie.title}" %></h1>
+<%= form_with url: "/movies/#{@movie.id}", data: { turbo: false }, method: :patch, local: true do |f| %>
+  <%= f.label "Title" %>
+  <%= f.text_field :title %>
+  <%= f.label "Released" %>
+  <%= f.text_field :released %>
+  <%= f.label "Rating" %>
+  <%= f.text_field :rating %>
+  <%= f.label "Sex" %>
+  <%= f.text_field :sex %>
+  <%= f.label "Nudity" %>
+  <%= f.text_field :nudity %>
+  <%= f.label "Violence" %>
+  <%= f.text_field :violence %>
+  <%= f.submit "Update Movie" %>
+<% end %>
