@@ -19,4 +19,12 @@ class Movie < ApplicationRecord
     end
   end
 
+  def self.adult_content 
+    where("sex = true OR nudity = true")
+  end
+
+  def self.violence
+    where(violence: true)
+  end
+
 end
