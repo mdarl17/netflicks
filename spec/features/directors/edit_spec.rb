@@ -5,7 +5,7 @@ RSpec.describe "Director Edit Page" do
     @scorcese = Director.create!({name: "Scorcese, Marty", years_active: 51, best_director: false})
 
     visit "/directors/#{@scorcese.id}/edit"
-    # TODO Test current values already populated in text fields
+    
     expect(page).to have_content("Update #{@scorcese.format_name}'s Bio")
 
     expect(page).to have_content("Name")
