@@ -27,8 +27,10 @@ class Movie < ApplicationRecord
     where(violence: true)
   end
 
-  def self.sort_alphabetically 
-    self.select("movies.*").order(:title)
+  def self.sort_movies(type)
+    if type == "alpha"
+      self.select("movies.*").order("title ASC")
+    end
   end
 
 end
