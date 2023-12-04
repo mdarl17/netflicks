@@ -6,6 +6,8 @@ RSpec.describe "Director Movies Index Page" do
     @spielberg = Director.create!({name: "Spielberg, Steven", years_active: 56, best_director: true})
     @strangelove = Movie.create!(title: "Dr. Strangelove", released: 1964, rating: 1, sex: false, nudity: false, violence: false, director_id: @kubrick.id)
     @shining = Movie.create!(title: "Shining, The", released: 1980, rating: 3, sex: false, nudity: true, violence: true, director_id: @kubrick.id)
+    @eyes_wide_shut = Movie.create!(title: "Eyes Wide Shut", released: 1999, rating: 3, sex: true, nudity: true, violence: false, director_id: @kubrick.id)
+    @full_metal_jacket = Movie.create!(title: "Full Metal Jacket", released: 1987, rating: 3, sex: true, nudity: true, violence: true, director_id: @kubrick.id)
     @space_odyssey = Movie.create!(title: "2001: A Space Odyssey", released: 1968, rating: 0, sex: false, nudity: false, violence: false, director_id: @kubrick.id)
     @jaws = Movie.create!(title: "Jaws", released: 1975, rating: 1, sex: false, nudity: false, violence: true, director_id: @spielberg.id)
   end
@@ -15,7 +17,7 @@ RSpec.describe "Director Movies Index Page" do
     visit "/directors/#{@kubrick.id}/movies"
 
     expect(page).to have_content("Stanley Kubrick Movies")
-
+    
     expect(page).to have_content("Dr. Strangelove")
     expect(page).to have_content("Released: 1964")
     expect(page).to have_content("Rating: PG")
@@ -69,6 +71,26 @@ RSpec.describe "Director Movies Index Page" do
 
     expect(current_path).to eq("/directors/#{@spielberg.id}/movies/new")
     expect(page).to have_content("Add a #{@spielberg.format_name} Movie")
+  end
+
+  it "sorts a director's movies alphabetically" do 
+    visit "/directors/#{@kubrick.id}/movies"
+
+    expect(page).to have_link("Sort Movies")
+
+    expect("Dr. Strangelove").to appear_before("The Shining")
+    expect("The Shining").to appear_before("Eyes Wide Shut")
+    expect("Eyes Wide Shut").to appear_before("Full Metal Jacket")
+    expect("Full Metal Jacket").to appear_before("2001: A Space Odyssey")
+
+    click_link "Sort Movies" 
+
+    expect(current_path).to eq("/directors/#{@kubrick.id}/movies")
+
+    expect("2001: A Space Odyssey").to appear_before("Dr. Strangelove")
+    expect("Dr. Strangelove").to appear_before("Eyes Wide Shut")
+    expect("Eyes Wide Shut").to appear_before("Full Metal Jacket")
+    expect("Full Metal Jacket").to appear_before("The Shining")
   end
   
 end
