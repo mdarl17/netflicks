@@ -96,8 +96,6 @@ RSpec.describe "Movies Index Page" do
         expect(page).to have_content("Dark Knight, The")
         expect(page).to have_content("Goodfellas")
         expect(page).to have_content("Pulp Fiction")
-        
-        save_and_open_page
       end
     end
   end
