@@ -2,6 +2,6 @@
 <%= link_to "New Director", "/directors/new" %>
 <% @directors.sort_by_created_at.each do |director| %>
   <p id=<%= "index-#{director.id}" %>>
-    <%= "#{director.name}" %> &nbsp&nbsp&nbsp <%= "#{director.created_at}" %>
+    <%= "#{director.name}" %> &nbsp&nbsp&nbsp <%= "#{director.created_at}" %> <%= link_to "edit", "/directors/#{director.id}/edit" %>
   </p>
 <% end %>
