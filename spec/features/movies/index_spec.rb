@@ -166,4 +166,38 @@ RSpec.describe "Movies Index Page" do
     end
   end
 
+  describe "deleting a movie" do 
+    it "each movie has a 'delete' link next to it that, when clicked, will remove the movie from the database" do 
+      visit "/movies"
+
+      mature_content = Movie.mature_content
+
+      mature_content.each do |movie| 
+        within "#index-#{movie.id}" do 
+          expect(page).to have_link("delete")
+        end
+      end
+
+      expect(page).to have_content("Shining, The")
+      expect(page).to have_content("Dark Knight, The")
+      expect(page).to have_content("Goodfellas")
+      expect(page).to have_content("Pulp Fiction")
+
+      save_and_open_page
+
+      within "#index-#{@shining.id}" do 
+        click_link "delete"
+      end
+
+      expect(current_path).to eq("/movies")
+
+      expect(page).to_not have_content("Shining, The")
+      expect(page).to have_content("Dark Knight, The")
+      expect(page).to have_content("Goodfellas")
+      expect(page).to have_content("Pulp Fiction")
+
+      save_and_open_page
+    end
+  end
+
 end 
