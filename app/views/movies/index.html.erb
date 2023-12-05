@@ -11,25 +11,14 @@
   <% end %>
 </section>
 
-<section id="index-adult-content">
-  <h2 style="text-decoration:underline; margin-bottom: -10px">Movies that Contain Adult Content</h2>
+<section id="index-mature-content">
+  <h2 style="text-decoration:underline; margin-bottom: -10px">Movies Containing Violence or Adult Content</h2>
   <br>
-  <% @movies.adult_content.each do |movie| %>
+  <% @movies.mature_content.each do |movie| %>
     <h3 style="font-style:italic"><%= movie.title %></h3>
-    <p style="margin-bottom: 5px">
-      <%= "Released: #{movie.released}" %>&nbsp | &nbsp<%= "Rating: #{movie.rating}" %>
+    <p id=<%= "index-#{movie.id}" %> style="margin-bottom: 5px">
+      <%= "Released: #{movie.released}" %>&nbsp | &nbsp<%= "Rating: #{movie.rating}" %> <%= link_to "edit", "/movies/#{movie.id}/edit" %>
     </p>
   <% end %>
   <br>
-</section>
-
-<section id="index-violence">
-  <h2 style="text-decoration:underline; margin-bottom: -10px">Movies that Contain Violence</h2>
-  <br>
-  <% @movies.violence.each do |movie| %>
-    <h3 style="font-style:italic"><%= movie.title %></h3>
-    <p style="margin-bottom: 5px">
-      <%= "Released: #{movie.released}" %>&nbsp | &nbsp<%= "Rating: #{movie.rating}" %>
-    </p>
-  <% end %>
 </section>
