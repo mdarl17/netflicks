@@ -52,4 +52,25 @@ RSpec.describe "Movie Show Page" do
     expect(page).to have_content("Edit #{@close_encounters.title}")
   end
 
+  it "each movie has a 'delete' link next to it that allows users to delete that movie from the system" do 
+    movies = Movie.all
+
+    movies.each do |movie| 
+      visit "/movies/#{movie.id}"
+      expect(page).to have_link("Delete Movie")
+    end
+
+    visit "/movies" 
+
+    expect(page).to have_content("Shining, The")
+
+    visit "/movies/#{@shining.id}"
+
+    click_link "Delete Movie" 
+
+    expect(current_path).to eq("/movies")
+
+    expect(page).to_not have_content("Shining, The")
+  end
+
 end 
