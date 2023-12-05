@@ -19,18 +19,22 @@ class Movie < ApplicationRecord
     end
   end
 
-  def self.adult_content 
-    where("sex = true OR nudity = true")
-  end
+  # def self.adult_content 
+  #   where("sex = true OR nudity = true")
+  # end
 
-  def self.violence
-    where(violence: true)
-  end
+  # def self.violence
+  #   where(violence: true)
+  # end
 
   def self.sort_movies(type)
     if type == "alpha"
       self.select("movies.*").order("title ASC")
     end
+  end
+
+  def self.mature_content
+    where("sex = true OR nudity = true OR violence = true")
   end
 
 end
