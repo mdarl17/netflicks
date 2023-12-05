@@ -48,6 +48,12 @@ RSpec.describe Movie do
         expect(@kubrick.movies.sort_movies("alpha")).to eq([@space_odyssey, @strangelove, @eyes_wide_shut, @full_metal_jacket, @shining])
       end
     end
+
+    describe "#released_after" do 
+      it "only displays movies after a user-provided year" do 
+        expect(@kubrick.movies.released_after(1980)).to eq([@eyes_wide_shut, @full_metal_jacket])
+      end
+    end
   end
 
   describe "instance methods" do 
