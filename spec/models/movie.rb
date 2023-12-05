@@ -25,17 +25,23 @@ RSpec.describe Movie do
   end
 
   describe "class methods" do 
-    describe "#adult_content" do 
-      it "returns only movies that contain adult content" do 
-        expect(Movie.adult_content).to eq([@shining, @eyes_wide_shut, @full_metal_jacket, @goodfellas, @pulp_fiction])
+    describe "#mature_content" do 
+      it "returns movies that contain violence OR adult content" do 
+        expect(Movie.mature_content).to eq([@shining, @eyes_wide_shut, @full_metal_jacket, @dark_knight, @goodfellas, @pulp_fiction])
       end
     end
+    
+    # describe "#adult_content" do 
+    #   it "returns only movies that contain adult content" do 
+    #     expect(Movie.adult_content).to eq([@shining, @eyes_wide_shut, @full_metal_jacket, @goodfellas, @pulp_fiction])
+    #   end
+    # end
 
-    describe "#violent" do 
-      it "returns only movies that contain violence" do 
-        expect(Movie.violence).to eq([@shining,@full_metal_jacket, @dark_knight, @goodfellas, @pulp_fiction])
-      end
-    end
+    # describe "#violent" do 
+    #   it "returns only movies that contain violence" do 
+    #     expect(Movie.violence).to eq([@shining,@full_metal_jacket, @dark_knight, @goodfellas, @pulp_fiction])
+    #   end
+    # end
 
     describe "#sort_movies" do 
       it "sorts movies in a manner contingent on argument" do 
