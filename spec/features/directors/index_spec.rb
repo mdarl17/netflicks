@@ -22,7 +22,7 @@ RSpec.describe "Directors Index Page" do
     @memento = Movie.create!(title: "Memento", released: 2001, rating: 3, sex: false, nudity: false, violence: true, director_id: @nolan.id)
     @dunkirk = Movie.create!(title: "Dunkirk", released: 2017, rating: 3, sex: false, nudity: false, violence: true, director_id: @nolan.id)
     @goodfellas = Movie.create!(title: "Goodfellas", released: 1990, rating: 3, sex: true, nudity: true, violence: true, director_id: @scorcese.id)
-    @raging_bull = Movie.create!(title: "Raging Bull", released: 1980, rating: 3, sex: false, nudity: true, violence: true, director_id: @scorcese.id)
+    # @raging_bull = Movie.create!(title: "Raging Bull", released: 1980, rating: 3, sex: false, nudity: true, violence: true, director_id: @scorcese.id)
     @pulp_fiction = Movie.create!(title: "Pulp Fiction", released: 1994, rating: 3, sex: false, nudity: false, violence: true, director_id: @tarantino.id)
     @basterds = Movie.create!(title: "Inglorious Basterds", released: 2009, rating: 3, sex: false, nudity: false, violence: true, director_id: @tarantino.id)
   end
