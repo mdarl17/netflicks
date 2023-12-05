@@ -1,7 +1,10 @@
 <h1 style="text-decoration:underline">Director List</h1>
 <%= link_to "New Director", "/directors/new" %>
-<% @directors.sort_by_created_at.each do |director| %>
+<%= link_to "sort by movie count", "/directors?sort_by=count" %>
+<% @directors.each do |director| %>
   <p id=<%= "index-#{director.id}" %>>
-    <%= "#{director.name}" %> &nbsp&nbsp&nbsp <%= "#{director.created_at}" %> <%= link_to "edit", "/directors/#{director.id}/edit" %> <%= link_to "delete", "/directors/#{director.id}", method: :delete %>
+    <%= "#{director.name}" %> &nbsp&nbsp&nbsp <%= "#{director.created_at}" %>  &nbsp <%= "Movie count: #{director.movie_count}" %> &nbsp&nbsp
+    <%= link_to "edit", "/directors/#{director.id}/edit" %> 
+    <%= link_to "delete", "/directors/#{director.id}", method: :delete %>
   </p>
 <% end %>
