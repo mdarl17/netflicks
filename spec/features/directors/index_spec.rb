@@ -104,5 +104,29 @@ RSpec.describe "Directors Index Page" do
       expect(page).to have_content("The director's bio information has been successfully updated.")
     end
   end
+
+  describe "deleting a director" do 
+    it "has a 'delete' link next to each director that deletes the director from the system" do 
+      visit "/directors" 
+
+      directors = Director.all
+
+      directors.each do |director| 
+        within "#index-#{director.id}" do 
+          expect(page).to have_link("delete")
+        end
+      end
+      
+      expect(page).to have_content("Scorcese, Martin")
+
+      within "#index-#{@scorcese.id}" do 
+        click_link "delete"
+      end
+      
+      expect(current_path).to eq("/directors")
+
+      expect(page).to_not have_content("Scorcese, Martin")
+    end
+  end
   
 end 
