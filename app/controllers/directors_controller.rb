@@ -1,6 +1,10 @@
 class DirectorsController < ApplicationController 
   def index 
-    @directors = Director.all
+    if params[:sort_by] 
+      @directors = Director.sort_by(params[:sort_by])
+    else
+      @directors = Director.sort_by_created_at
+    end
   end
 
   def show 
