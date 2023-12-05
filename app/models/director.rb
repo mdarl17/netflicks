@@ -1,5 +1,5 @@
 class Director < ApplicationRecord 
-  has_many :movies
+  has_many :movies, dependent: :destroy
 
   validates :name, format: { with: /[a-zA-Z]/ }
   validates :years_active, numericality: { only_integer: true }
