@@ -16,6 +16,15 @@ class Director < ApplicationRecord
     movies.count
   end
 
+  def self.sort_by(type) 
+    if type == "count" 
+      select("directors.*, COUNT(movies.id) AS movie_count")
+        .joins(:movies)
+        .group("directors.id")
+        .order("movie_count DESC")
+    end
+  end
+
   def self.sort_by_created_at 
     select("directors.*").order("created_at DESC")
   end
