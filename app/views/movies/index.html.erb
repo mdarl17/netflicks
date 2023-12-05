@@ -17,7 +17,7 @@
   <% @movies.mature_content.each do |movie| %>
     <h3 style="font-style:italic"><%= movie.title %></h3>
     <p id=<%= "index-#{movie.id}" %> style="margin-bottom: 5px">
-      <%= "Released: #{movie.released}" %>&nbsp | &nbsp<%= "Rating: #{movie.rating}" %> <%= link_to "edit", "/movies/#{movie.id}/edit" %>
+      <%= "Released: #{movie.released}" %>&nbsp | &nbsp<%= "Rating: #{movie.rating}" %> <%= link_to "edit", "/movies/#{movie.id}/edit" %> <%= link_to "delete", "/movies/#{movie.id}", method: :delete %>
     </p>
   <% end %>
   <br>
