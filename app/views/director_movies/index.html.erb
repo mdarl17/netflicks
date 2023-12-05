@@ -2,11 +2,14 @@
 <%= link_to "Create Movie", "/directors/#{@director.id}/movies/new" %>
 <%= link_to "Sort Movies", "/directors/#{@director.id}/movies?sort=alpha" %>
 <% @movies.each do |movie| %>
-  <h3><%= movie.format_title %></h3>
-  <p>Released: <%= movie.released %></p>
-  <p>Rating: <%= movie.rating %></p>
-  <p>Sex: <%= movie.sex %></p>
-  <p>Nudity: <%= movie.nudity %></p>
-  <p>Violence: <%= movie.violence %></p>
-  <br>
+  <article id=<%= "index-#{movie.id}" %>>
+    <h3><%= movie.format_title %></h3>
+    <%= link_to "edit", "/movies/#{movie.id}/edit" %>
+    <p>Released: <%= movie.released %></p>
+    <p>Rating: <%= movie.rating %></p>
+    <p>Sex: <%= movie.sex %></p>
+    <p>Nudity: <%= movie.nudity %></p>
+    <p>Violence: <%= movie.violence %></p>
+    <br>
+  </article>
 <% end %>
