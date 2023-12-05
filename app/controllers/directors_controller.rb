@@ -28,9 +28,9 @@ class DirectorsController < ApplicationController
   end
 
   def update 
-    # director = Director.update!({name: params[:name], years_active: params[:years_active], best_director: params[:best_director]})
     director = Director.find(params[:id])
 
+    # Not using update! (with bang!) b/c validations stop program execution
     if director.update({name: params[:name], years_active: params[:years_active], best_director: params[:best_director]})
       flash[:notice] = "The director's bio information has been successfully updated."
       redirect_to "/directors/#{params[:id]}"
@@ -38,6 +38,12 @@ class DirectorsController < ApplicationController
       flash[:notice] = "Sorry, there was an error and the director's bio information was not updated. Please try updating again." 
       redirect_to "/directors/#{director.id}/edit"
     end
+  end
+
+  def destroy 
+    Director.destroy(params[:id])
+
+    redirect_to "/directors"
   end
 
 end
