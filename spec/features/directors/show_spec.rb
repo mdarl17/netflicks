@@ -71,5 +71,27 @@ RSpec.describe "Director Show Page" do
     expect(current_path).to eq("/directors/#{@spielberg.id}/edit")
     expect(page).to have_content("Update #{@spielberg.format_name}'s Bio")
   end
+
+  describe "deleting a director" do 
+    it "has a link to delete a director from the system" do 
+      visit "/directors" 
+
+      expect(page).to have_content("Kubrick, Stanley")
+
+      expect(Movie.pluck(:title)).to eq(["Dr. Strangelove", "Shining, The", "2001: A Space Odyssey", "Close Encounters of the Third Kind", "Jaws"])
+
+      visit "/directors/#{@kubrick.id}"
+
+      expect(page).to have_link("delete")
+
+      click_link "delete" 
+
+      expect(current_path).to eq("/directors")
+
+      expect(page).to_not have_content("Kubrick, Stanley")
+
+      expect(Movie.pluck(:title)).to eq(["Close Encounters of the Third Kind", "Jaws"])
+    end
+  end
   
 end 
