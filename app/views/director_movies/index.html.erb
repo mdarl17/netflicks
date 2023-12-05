@@ -13,3 +13,11 @@
     <br>
   </article>
 <% end %>
+
+<h2>Filter Movies by Year Released</h2>
+<%= form_with url: "/directors/#{@director.id}/movies", method: :get, data: {turbo: false}, local: true do |f| %> 
+  <%= f.label "Released after" %>
+  <%= f.text_field :released_after %>
+  <%= f.hidden_field :button_year, value: :released_after %>
+  <%= f.submit "Return movies" %>
+<% end %>
