@@ -37,4 +37,8 @@ class Movie < ApplicationRecord
     where("sex = true OR nudity = true OR violence = true")
   end
 
+  def self.released_after(year) 
+    select("movies.*").where("movies.released > ?", year)
+  end
+
 end
