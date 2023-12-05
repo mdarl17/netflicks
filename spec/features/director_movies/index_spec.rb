@@ -92,5 +92,54 @@ RSpec.describe "Director Movies Index Page" do
     expect("Eyes Wide Shut").to appear_before("Full Metal Jacket")
     expect("Full Metal Jacket").to appear_before("The Shining")
   end
+
+  describe "updating a movie's info" do 
+    it "has a link to edit the movie next to every movie" do 
+      visit "/directors/#{@spielberg.id}/movies"
+
+      spiel_movies = @spielberg.movies
+
+      spiel_movies.each do |movie| 
+        within "#index-#{movie.id}" do 
+          expect(page).to have_link("edit")
+        end
+      end
+    end
+
+    it "when the 'edit' link is clicked users are redirected to an edit movie form on the edit movie page" do 
+      visit "/directors/#{@spielberg.id}/movies" 
+
+      within "#index-#{@jaws.id}" do 
+        click_link "edit" 
+      end
+
+      expect(current_path).to eq("/movies/#{@jaws.id}/edit")
+
+      expect(page).to have_field(:title, with: "Jaws")
+      expect(page).to have_field(:released, with: 1975)
+      expect(page).to have_field(:rating, with: "PG")
+      expect(page).to have_field(:sex, with: false)
+      expect(page).to have_field(:nudity, with: false)
+      expect(page).to have_field(:violence, with: true)
+
+      fill_in(:title, with: "Jaws")
+      fill_in(:released, with: 1976)
+      fill_in(:rating, with: 2)
+      fill_in(:sex, with: true)
+      fill_in(:nudity, with: true)
+      fill_in(:violence, with: false)
+
+      click_button "Update Movie" 
+
+      expect(current_path).to eq("/movies/#{@jaws.id}")
+
+      expect(page).to have_content("Jaws")
+      expect(page).to have_content("Released: 1976")
+      expect(page).to have_content("Rating: PG-13")
+      expect(page).to have_content("Sex: true")
+      expect(page).to have_content("Nudity: true")
+      expect(page).to have_content("Violence: false")
+    end
+  end
   
 end
