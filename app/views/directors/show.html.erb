@@ -1,7 +1,7 @@
 <h1 style="text-decoration:underline">Director Details</h1>
 <%= link_to "Update Director", "/directors/#{@director.id}/edit" %>
 &nbsp | &nbsp <%= link_to "#{@director.format_name.titleize} movies", "/directors/#{@director.id}/movies" %>
-<h3><%= @director.format_name %></h3>
+<h3><%= @director.format_name %> <%= link_to "delete", "/directors/#{@director.id}", method: :delete %></h3>
 <p>Movie Count: <%= @director.movie_count %>
 <p>Years Active: <%= @director.years_active %></p>
 <p>Best Director Oscar: <%= @director.best_director %></p>
