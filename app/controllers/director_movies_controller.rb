@@ -7,6 +7,10 @@ class DirectorMoviesController < ApplicationController
     else
       @movies = @director.movies
     end
+
+    if params[:released_after]
+      @movies = @director.movies.released_after(params[:released_after])
+    end
   end
 
   def new 
