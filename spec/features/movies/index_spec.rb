@@ -10,7 +10,7 @@ RSpec.describe "Movies Index Page" do
 
     @strangelove = Movie.create!(title: "Dr. Strangelove", released: 1964, rating: 1, sex: false, nudity: false, violence: false, director_id: @kubrick.id)
     @shining = Movie.create!(title: "Shining, The", released: 1980, rating: 2, sex: false, nudity: true, violence: true, director_id: @kubrick.id)
-    @jaws = Movie.create!(title: "Jaws", released: 1975, rating: 1, sex: false, nudity: false, violence: false, director_id: @spielberg.id)
+    @jaws = Movie.create!(title: "Jaws", released: 1975, rating: 1, sex: false, nudity: false, violence: true, director_id: @spielberg.id)
     @dark_knight = Movie.create!(title: "Dark Knight, The", released: 2008, rating: 2, sex: false, nudity: false, violence: true, director_id: @nolan.id)
     @goodfellas = Movie.create!(title: "Goodfellas", released: 1990, rating: 3, sex: true, nudity: true, violence: true, director_id: @scorcese.id)
     @pulp_fiction = Movie.create!(title: "Pulp Fiction", released: 1994, rating: 3, sex: true, nudity: true, violence: true, director_id: @tarantino.id)
@@ -76,26 +76,92 @@ RSpec.describe "Movies Index Page" do
   end
 
   describe "true boolean fields" do 
-    it "has a section that lists movies with adult content (i.e. sex, nudity)" do 
+    # it "has a section that lists movies with adult content (i.e. sex, nudity)" do 
+    #   visit "/movies"
+
+    #   within "#index-adult-content" do 
+    #     expect(page).to have_content("Movies that Contain Adult Content")
+    #     expect(page).to have_content("Shining, The")
+    #     expect(page).to have_content("Goodfellas")
+    #     expect(page).to have_content("Pulp Fiction")
+    #   end
+    # end
+
+    # it "has a section that lists movies that have violent content" do 
+    #   visit "/movies"
+      
+    #   within "#index-violence" do
+    #     expect(page).to have_content("Movies that Contain Violence")
+    #     expect(page).to have_content("Shining, The")
+    #     expect(page).to have_content("Jaws")
+    #     expect(page).to have_content("Dark Knight, The")
+    #     expect(page).to have_content("Goodfellas")
+    #     expect(page).to have_content("Pulp Fiction")
+    #   end
+    # end
+
+    #   it "has a section that lists movies that have violent content" do 
+    #     visit "/movies"
+
+
+    it "only displays movies with mature content (1 of 3 boolean fields is true)" do
       visit "/movies"
 
-      within "#index-adult-content" do 
-        expect(page).to have_content("Movies that Contain Adult Content")
+      within "#index-mature-content" do
+        expect(page).to have_content("Movies Containing Violence or Adult Content")
         expect(page).to have_content("Shining, The")
+        expect(page).to have_content("Dark Knight, The")
         expect(page).to have_content("Goodfellas")
         expect(page).to have_content("Pulp Fiction")
       end
     end
 
-    it "has a section that lists movies that have violent content" do 
-      visit "/movies"
-      
-      within "#index-violence" do
-        expect(page).to have_content("Movies that Contain Violence")
-        expect(page).to have_content("Shining, The")
-        expect(page).to have_content("Dark Knight, The")
-        expect(page).to have_content("Goodfellas")
-        expect(page).to have_content("Pulp Fiction")
+    describe "updating a movie's info" do 
+      it "has a link to edit the movie next to every movie" do 
+        visit "/movies"
+  
+        mature_content = Movie.mature_content
+  
+        mature_content.each do |movie| 
+          within "#index-#{movie.id}" do 
+            expect(page).to have_link("edit")
+          end
+        end
+      end
+
+      it "when the 'edit' link is clicked users are redirected to an edit movie form on the edit movie page" do 
+        visit "/movies" 
+
+        within "#index-#{@jaws.id}" do 
+          click_link "edit" 
+        end
+
+        expect(current_path).to eq("/movies/#{@jaws.id}/edit")
+
+        expect(page).to have_field(:title, with: "Jaws")
+        expect(page).to have_field(:released, with: 1975)
+        expect(page).to have_field(:rating, with: "PG")
+        expect(page).to have_field(:sex, with: false)
+        expect(page).to have_field(:nudity, with: false)
+        expect(page).to have_field(:violence, with: true)
+
+        fill_in(:title, with: "Jaws")
+        fill_in(:released, with: 1976)
+        fill_in(:rating, with: 2)
+        fill_in(:sex, with: true)
+        fill_in(:nudity, with: true)
+        fill_in(:violence, with: false)
+
+        click_button "Update Movie" 
+
+        expect(current_path).to eq("/movies/#{@jaws.id}")
+
+        expect(page).to have_content("Jaws")
+        expect(page).to have_content("Released: 1976")
+        expect(page).to have_content("Rating: PG-13")
+        expect(page).to have_content("Sex: true")
+        expect(page).to have_content("Nudity: true")
+        expect(page).to have_content("Violence: false")
       end
     end
   end
