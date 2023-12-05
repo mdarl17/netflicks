@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   post "/directors", to: "directors#create"
   get "/directors/new", to: "directors#new"
   get "/directors/:id", to: "directors#show"
+  delete "/directors/:id", to: "directors#destroy"
 
   get "/directors/:id/movies", to: "director_movies#index"
   get "/directors/:id/movies/new", to: "director_movies#new"
