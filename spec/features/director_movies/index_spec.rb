@@ -141,5 +141,27 @@ RSpec.describe "Director Movies Index Page" do
       expect(page).to have_content("Violence: false")
     end
   end
+
+  it "has a form that takes a 'year' integer and only displays movies more recent than the input year" do 
+    visit "/directors/#{@kubrick.id}/movies"
+
+    expect(page).to have_content("Filter Movies by Year Released")
+    expect(page).to have_content("Released after")
+    expect(page).to have_field(:released_after)
+
+    fill_in(:released_after, with: 1980)
+
+    expect(page).to have_button("Return movies")
+
+    click_button "Return movies"
+
+    expect(current_path).to eq("/directors/#{@kubrick.id}/movies")
+
+    expect(page).to have_content("Full Metal Jacket")
+    expect(page).to have_content("Eyes Wide Shut")
+    expect(page).to_not have_content("Dr. Strangelove")
+    expect(page).to_not have_content("2001: A Space Odyssey")
+    expect(page).to_not have_content("Shining, The")
+  end
   
 end
