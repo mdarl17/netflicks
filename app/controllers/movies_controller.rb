@@ -1,6 +1,12 @@
 class MoviesController < ApplicationController 
   def index 
-    @movies = Movie.all
+    if params[:find_exact] && params[:find_exact].length > 0 
+      @movies = Movie.exact_search(params[:find_exact])
+    elsif params[:find_partial] && params[:find_partial].length > 0
+      @movies = Movie.partial_search(params[:find_partial])
+    else
+      @movies = Movie.all
+    end
   end
 
   def show 
