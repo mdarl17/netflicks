@@ -35,6 +35,14 @@ RSpec.describe "Movies Index Page" do
   #   expect(page).to have_content("Sex: false")
   #   expect(page).to have_content("Nudity: false")
   #   expect(page).to have_content("Violence: false")
+  
+  #   expect(page).to have_content("Shining, The")
+  #   expect(page).to have_content("Released: 1980")
+  #   expect(page).to have_content("Rating: R")
+  #   expect(page).to have_content("Sex: false")
+  #   expect(page).to have_content("Nudity: true")
+  #   expect(page).to have_content("Violence: true")
+
 
   #   expect(page).to have_content("Jaws")
   #   expect(page).to have_content("Released: 1975")
@@ -192,6 +200,167 @@ RSpec.describe "Movies Index Page" do
       expect(page).to have_content("Dark Knight, The")
       expect(page).to have_content("Goodfellas")
       expect(page).to have_content("Pulp Fiction")
+    end
+  end
+
+  describe "filtering movies" do 
+    it "can find a movie using an exact search" do 
+      visit "/movies" 
+
+      expect(page).to have_content("Shining, The")
+      expect(page).to have_content("Dark Knight, The")
+      expect(page).to have_content("Goodfellas")
+      expect(page).to have_content("Pulp Fiction")
+
+      expect(page).to have_content("Exact title search:")
+      expect(page).to have_field(:find_exact)
+      expect(page).to have_button("Search")
+
+      fill_in(:find_exact, with: "Dark Knight, The")
+      click_button("Search")
+
+      expect(page).to have_content("Dark Knight, The")
+      expect(page).to_not have_content("Shining, The")
+      expect(page).to_not have_content("Goodfellas")
+      expect(page).to_not have_content("Pulp Fiction")
+
+      fill_in(:find_exact, with: "Goodfella")
+      click_button("Search")
+
+      expect(current_path).to eq("/movies")
+
+      expect(page).to_not have_content("Dark Knight, The")
+      expect(page).to_not have_content("Shining, The")
+      expect(page).to_not have_content("Goodfellas")
+      expect(page).to_not have_content("Pulp Fiction")
+
+      fill_in(:find_exact, with: "Goodfellas")
+      click_button("Search")
+
+      expect(current_path).to eq("/movies")
+
+      expect(page).to have_content("Goodfellas")
+      expect(page).to_not have_content("Dark Knight, The")
+      expect(page).to_not have_content("Shining, The")
+      expect(page).to_not have_content("Pulp Fiction")
+    end
+    
+    it "can filter the display using a case-insensitive partial title search" do 
+      visit "/movies" 
+
+      expect(page).to have_content("Shining, The")
+      expect(page).to have_content("Dark Knight, The")
+      expect(page).to have_content("Goodfellas")
+      expect(page).to have_content("Pulp Fiction")
+
+      expect(page).to have_content("Partial title search:")
+      expect(page).to have_field(:find_partial)
+      expect(page).to have_button("Search")
+
+      fill_in(:find_partial, with: "Shin")
+      click_button("Search")
+
+      expect(current_path).to eq("/movies")
+
+      expect(page).to have_content("Shining, The")
+      expect(page).to_not have_content("Dark Knight, The")
+      expect(page).to_not have_content("Goodfellas")
+      expect(page).to_not have_content("Pulp Fiction")
+    end
+  end
+
+  it "deletes unfiltered movies" do 
+    visit "/movies" 
+
+    within "#original-index" do 
+      expect(page).to have_content("Dr. Strangelove")
+      expect(page).to have_content("Released: 1964")
+      expect(page).to have_content("Rating: PG")
+      expect(page).to have_content("Sex: false")
+      expect(page).to have_content("Nudity: false")
+      expect(page).to have_content("Violence: false")
+    
+      expect(page).to have_content("Shining, The")
+      expect(page).to have_content("Released: 1980")
+      expect(page).to have_content("Rating: R")
+      expect(page).to have_content("Sex: false")
+      expect(page).to have_content("Nudity: true")
+      expect(page).to have_content("Violence: true")
+
+      expect(page).to have_content("Jaws")
+      expect(page).to have_content("Released: 1975")
+      expect(page).to have_content("Rating: PG")
+      expect(page).to have_content("Sex: false")
+      expect(page).to have_content("Nudity: false")
+      expect(page).to have_content("Violence: false")
+
+      expect(page).to have_content("Dark Knight, The")
+      expect(page).to have_content("Released: 2008")
+      expect(page).to have_content("Rating: PG-13")
+      expect(page).to have_content("Sex: false")
+      expect(page).to have_content("Nudity: false")
+      expect(page).to have_content("Violence: true")
+
+      expect(page).to have_content("Goodfellas")
+      expect(page).to have_content("Released: 1990")
+      expect(page).to have_content("Rating: R")
+      expect(page).to have_content("Sex: true")
+      expect(page).to have_content("Nudity: true")
+      expect(page).to have_content("Violence: true")
+
+      expect(page).to have_content("Pulp Fiction")
+      expect(page).to have_content("Released: 1994")
+      expect(page).to have_content("Rating: R")
+      expect(page).to have_content("Sex: true")
+      expect(page).to have_content("Nudity: false")
+      expect(page).to have_content("Violence: true")
+    end
+
+    expect(Movie.count).to eq(6)
+
+    within "#movie-index-#{@strangelove.id}" do 
+      click_link "delete"
+    end
+
+    expect(current_path).to eq("/movies")
+
+    expect(Movie.count).to eq(5)
+
+    within "#original-index" do
+      expect(page).to have_content("Shining, The")
+      expect(page).to have_content("Released: 1980")
+      expect(page).to have_content("Rating: R")
+      expect(page).to have_content("Sex: false")
+      expect(page).to have_content("Nudity: true")
+      expect(page).to have_content("Violence: true")
+  
+      expect(page).to have_content("Jaws")
+      expect(page).to have_content("Released: 1975")
+      expect(page).to have_content("Rating: PG")
+      expect(page).to have_content("Sex: false")
+      expect(page).to have_content("Nudity: false")
+      expect(page).to have_content("Violence: true")
+  
+      expect(page).to have_content("Dark Knight, The")
+      expect(page).to have_content("Released: 2008")
+      expect(page).to have_content("Rating: PG-13")
+      expect(page).to have_content("Sex: false")
+      expect(page).to have_content("Nudity: false")
+      expect(page).to have_content("Violence: true")
+  
+      expect(page).to have_content("Goodfellas")
+      expect(page).to have_content("Released: 1990")
+      expect(page).to have_content("Rating: R")
+      expect(page).to have_content("Sex: true")
+      expect(page).to have_content("Nudity: true")
+      expect(page).to have_content("Violence: true")
+  
+      expect(page).to have_content("Pulp Fiction")
+      expect(page).to have_content("Released: 1994")
+      expect(page).to have_content("Rating: R")
+      expect(page).to have_content("Sex: true")
+      expect(page).to have_content("Nudity: false")
+      expect(page).to have_content("Violence: true")
     end
   end
 
