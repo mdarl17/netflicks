@@ -1,24 +1,37 @@
-<section id="original-index" style="display:none">
+<section id="original-index">
   <h1 style="text-decoration:underline">Movie List</h1>
   <% @movies.each do |movie| %>
-    <h3><%= movie.title %></h3>
-    <p>Released: <%= movie.released %></p>
-    <p>Rating: <%= movie.rating %></p>
-    <p>Sex: <%= movie.sex %></p>
-    <p>Nudity: <%= movie.nudity %></p>
-    <p>Violence: <%= movie.violence %></p>
-    <br>
+    <span id=<%= "movie-index-#{movie.id}"%>>
+      <%= link_to "edit", "/movies/#{movie.id}/edit" %> <%= link_to "delete", "/movies/#{movie.id}", method: :delete %>
+      <h3><%= movie.title %></h3>
+      <p>Released: <%= movie.released %></p>
+      <p>Rating: <%= movie.rating %></p>
+      <p>Sex: <%= movie.sex %></p>
+      <p>Nudity: <%= movie.nudity %></p>
+      <p>Violence: <%= movie.violence %></p>
+      <br>
+    </span>
   <% end %>
 </section>
 
 <section id="index-mature-content">
   <h2 style="text-decoration:underline; margin-bottom: -10px">Movies Containing Violence or Adult Content</h2>
   <br>
-  <% @movies.mature_content.each do |movie| %>
-    <h3 style="font-style:italic"><%= movie.title %></h3>
-    <p id=<%= "index-#{movie.id}" %> style="margin-bottom: 5px">
-      <%= "Released: #{movie.released}" %>&nbsp | &nbsp<%= "Rating: #{movie.rating}" %> <%= link_to "edit", "/movies/#{movie.id}/edit" %> <%= link_to "delete", "/movies/#{movie.id}", method: :delete %>
-    </p>
+  <% unless @movies.empty? %>
+    <% @movies.mature_content.each do |movie| %>
+      <h3 style="font-style:italic"><%= movie.title %></h3>
+      <p id=<%= "index-#{movie.id}" %> style="margin-bottom: 5px">
+        <%= "Released: #{movie.released}" %>&nbsp | &nbsp<%= "Rating: #{movie.rating}" %> <%= link_to "edit", "/movies/#{movie.id}/edit" %> <%= link_to "delete", "/movies/#{movie.id}", method: :delete %>
+      </p>
+    <% end %>
   <% end %>
   <br>
 </section>
+
+<%= form_with url: "/movies", method: :get, data: {turbo: false}, local: true do |f| %>
+  <%= f.label "Exact title search:" %>
+  <%= f.text_field :find_exact %>
+  <%= f.label "Partial title search:" %>
+  <%= f.text_field :find_partial %>
+  <%= f.submit "Search" %>
+<% end %>
