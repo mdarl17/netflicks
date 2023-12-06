@@ -1,7 +1,7 @@
 <h1 style="text-decoration:underline">Director List</h1>
 <%= link_to "New Director", "/directors/new" %>
 <%= link_to "sort by movie count", "/directors?sort_by=count" %>
-<% if @directors.length > 0 %>
+<% unless @directors.empty? %>
   <% @directors.each do |director| %>   
     <p id=<%= "index-#{director.id}" %>>
       <%= "#{director.name}" %> &nbsp&nbsp&nbsp <%= "#{director.created_at}" %>  &nbsp <%= "Movie count: #{director.movie_count}" %> &nbsp&nbsp
