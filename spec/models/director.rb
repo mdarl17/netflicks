@@ -64,5 +64,24 @@ RSpec.describe Director do
         expect(Director.sort_by("count")).to eq([@kubrick, @spielberg, @nolan, @tarantino, @scorcese])
       end
     end
+
+    describe "#find_count" do 
+      it "can search for directors by movie count" do
+         expect(Director.find_count(4)).to eq([@spielberg])
+         expect(Director.find_count(0)).to eq([])
+         expect(Director.find_count(100)).to eq([])
+      end
+    end
+
+    describe "#find_name" do 
+      it "can search directors by case-insensitive partial name" do 
+        expect(Director.find_name("spiel")).to eq([@spielberg])
+        expect(Director.find_name("Stanley Kubrick")).to eq([@kubrick])
+        expect(Director.find_name("Anderson, Paul Thomas")).to eq([@anderson])
+        expect(Director.find_name("Anderson, Pau tho")).to eq([@anderson])
+        expect(Director.find_name("s")).to eq([@kubrick, @anderson, @nolan, @spielberg, @scorcese])
+        expect(Director.find_name("")).to eq([])
+      end
+    end
   end
 end 
