@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Director do 
   before(:each) do 
-    @kubrick = Director.create!({name: "Kubrick, Stanley", years_active: 47, best_director: false, created_at: Date.today - 3})
+    @kubrick = Director.create!(name: "Kubrick, Stanley", years_active: 47, best_director: false, created_at: Date.today - 3)
     @anderson = Director.create!({name: "Anderson, Paul Thomas", years_active: 25, best_director: false, created_at: Date.today - 5})
     @nolan = Director.create!({name: "Nolan, Christopher", years_active: 19, best_director: false, created_at: Date.today - 1})
     @spielberg = Director.create!({name: "Spielberg, Steven", years_active: 56, best_director: true, created_at: Date.today})
@@ -30,6 +30,19 @@ RSpec.describe Director do
 
   describe "relationships" do 
     it { should have_many :movies }
+  end
+
+  describe "validations" do 
+    it { should validate_presence_of :name }
+    it { should validate_presence_of :years_active }
+    # Why is :best_director presence: true model validation failing when filled with valid data?
+    # it { should validate_presence_of :best_director }
+
+    it { should validate_numericality_of :years_active }
+    it { should allow_value(true).for :best_director }
+    it { should allow_value(false).for :best_director }
+    it { should_not allow_value(nil).for :best_director }
+
   end
 
   describe "instance methods" do 
@@ -78,8 +91,10 @@ RSpec.describe Director do
         expect(Director.find_name("spiel")).to eq([@spielberg])
         expect(Director.find_name("Stanley Kubrick")).to eq([@kubrick])
         expect(Director.find_name("Anderson, Paul Thomas")).to eq([@anderson])
-        expect(Director.find_name("Anderson, Pau tho")).to eq([@anderson])
+        expect(Director.find_name("ander, Pau tho")).to eq([@anderson])
+        expect(Director.find_name("anDer, tHo")).to eq([@anderson])
         expect(Director.find_name("s")).to eq([@kubrick, @anderson, @nolan, @spielberg, @scorcese])
+        expect(Director.find_name("z")).to eq([])
         expect(Director.find_name("")).to eq([])
       end
     end
