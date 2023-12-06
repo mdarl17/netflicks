@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "Director Movies Index Page" do 
   before(:each) do 
     @kubrick = Director.create!(name: "Kubrick, Stanley", years_active: 47, best_director: false)
-    @spielberg = Director.create!({name: "Spielberg, Steven", years_active: 56, best_director: true})
+    @spielberg = Director.create!(name: "Spielberg, Steven", years_active: 56, best_director: true)
     @strangelove = Movie.create!(title: "Dr. Strangelove", released: 1964, rating: 1, sex: false, nudity: false, violence: false, director_id: @kubrick.id)
     @shining = Movie.create!(title: "Shining, The", released: 1980, rating: 3, sex: false, nudity: true, violence: true, director_id: @kubrick.id)
     @eyes_wide_shut = Movie.create!(title: "Eyes Wide Shut", released: 1999, rating: 3, sex: true, nudity: true, violence: false, director_id: @kubrick.id)
