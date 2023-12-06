@@ -42,7 +42,8 @@ class Director < ApplicationRecord
     director = director_counts.find do |director|
       director.movie_count == n.to_i
     end
-    return [director]
+    return [director] if director
+    return []
   end
 
 end
