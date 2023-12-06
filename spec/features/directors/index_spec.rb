@@ -154,7 +154,7 @@ RSpec.describe "Directors Index Page" do
     expect("Tarantino, Quentin").to appear_before("Kubrick, Stanley")
     expect("Kubrick, Stanley").to appear_before("Scorcese, Martin")
 
-    click_link("sort by movie count")
+    click_link("Sort by Movie Count")
 
     expect(current_path).to eq("/directors")
 
