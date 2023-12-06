@@ -2,6 +2,10 @@ class DirectorsController < ApplicationController
   def index 
     if params[:sort_by] 
       @directors = Director.sort_by(params[:sort_by])
+    elsif params[:find_name] && params[:find_name].length > 0
+      @directors = Director.find_name(params[:find_name])
+    elsif params[:find_count] && params[:find_count].length > 0
+      @directors = Director.find_count(params[:find_count])
     else
       @directors = Director.sort_by_created_at
     end
