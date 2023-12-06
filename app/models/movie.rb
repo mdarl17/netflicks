@@ -56,6 +56,7 @@ class Movie < ApplicationRecord
   def self.partial_search(title) 
     movie = select("movies.*").where("title ILIKE ?", "%#{title}%")
     return movie unless movie.empty?
+    return []
   end
 
 end
