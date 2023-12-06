@@ -6,7 +6,7 @@
     <p id=<%= "index-#{director.id}" %>>
       <%= link_to "#{director.name}", "/directors/#{director.id}" %> &nbsp&nbsp&nbsp <%= "#{director.created_at}" %>  &nbsp <%= "Movie count: #{director.movie_count}" %> &nbsp&nbsp
       <%= link_to "edit", "/directors/#{director.id}/edit" %> &nbsp
-      <%= link_to "delete", "/directors/#{director.id}", method: :delete %>
+      <%= link_to "delete", "/directors/#{director.id}", data: { turbo_method: :delete } %>
     </p>
   <% end %>
 <% end %>
