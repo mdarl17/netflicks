@@ -17,6 +17,7 @@ class Director < ApplicationRecord
   end
 
   def self.sort_by(type) 
+    # does not return directors with '0' movies associated
     if type == "count" 
       select("directors.*, COUNT(movies.id) AS movie_count")
         .joins(:movies)
@@ -27,6 +28,21 @@ class Director < ApplicationRecord
 
   def self.sort_by_created_at 
     select("directors.*").order("created_at DESC")
+  end
+
+  def self.find_name(name)
+    fname = name.split(" ").first
+    lname = name.split(" ").last
+
+    select("directors.*").where("name = ?", "#{lname}, #{fname}")
+  end
+
+  def self.find_count(n) 
+    director_counts = select("directors.*, COUNT(movies.id) AS movie_count").joins(:movies).group("directors.id")
+    director = director_counts.find do |director|
+      director.movie_count == n.to_i
+    end
+    return [director]
   end
 
 end
