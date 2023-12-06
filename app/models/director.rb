@@ -3,8 +3,10 @@ class Director < ApplicationRecord
 
   validates :name, format: { with: /[a-zA-Z]/ }
   validates :years_active, numericality: { only_integer: true }
-  validates :best_director, inclusion: [true, false]
+  validates :best_director, inclusion: { in: [true, false] }, allow_blank: false
   validates :name, :years_active, presence: true
+  # TODO why issues w/ setup data that has :best_director value??
+  # validates :best_director, presence: true
 
   def format_name 
     name_arr = name.split(", ")
