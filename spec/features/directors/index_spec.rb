@@ -189,6 +189,8 @@ RSpec.describe "Directors Index Page" do
       expect(current_path).to eq("/directors")
 
       expect(page).to have_content("Kubrick, Stanley")
+      expect(page).to have_content("Movie count: 5")
+      
       expect(page).to_not have_content("Spielberg, Steven")
       expect(page).to_not have_content("Nolan, Christopher")
       expect(page).to_not have_content("Scorcese, Martin")
@@ -241,6 +243,27 @@ RSpec.describe "Directors Index Page" do
       expect(page).to_not have_content("Movie count: 5")
       expect(page).to_not have_content("Spielberg, Steven")
       expect(page).to_not have_content("Movie count: 4")
+      expect(page).to_not have_content("Scorcese, Martin")
+      expect(page).to_not have_content("Movie count: 1")
+      expect(page).to_not have_content("Tarantino, Quentin")
+      expect(page).to_not have_content("Movie count: 2")
+    end
+
+    it "can do a case-insensitive partial name search" do 
+      visit "/directors" 
+
+      fill_in(:find_name, with: "spiel")
+      click_button("Search")
+
+      expect(current_path).to eq("/directors")
+      
+      expect(page).to have_content("Spielberg, Steven")
+      expect(page).to have_content("Movie count: 4")
+
+      expect(page).to_not have_content("Nolan, Christopher")
+      expect(page).to_not have_content("Movie count: 3")
+      expect(page).to_not have_content("Kubrick, Stanley")
+      expect(page).to_not have_content("Movie count: 5")
       expect(page).to_not have_content("Scorcese, Martin")
       expect(page).to_not have_content("Movie count: 1")
       expect(page).to_not have_content("Tarantino, Quentin")
