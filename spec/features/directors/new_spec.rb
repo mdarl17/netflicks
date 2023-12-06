@@ -43,13 +43,15 @@ RSpec.describe "New Director Page" do
     expect(current_path).to eq("/directors/new")
     expect(Director.where("name = ?", "Allen, Woody")).to eq([])
 
+    
     # TODO: ASK HOW TO INVALIDATE EMPTY STRING FOR ATTRIBUTE W/ BOOLEAN DATATYPE
+    
     # fill_in(:name, with: "Allen, Woody")
     # fill_in(:years_active, with: 53 )
     # fill_in(:best_director, with: " ")
-
+    
     # click_button "Create Director"
-
+    
     # expect(current_path).to eq("/directors/new")
     # expect(Director.where("name = ?", "Allen, Woody")).to eq([])
 
