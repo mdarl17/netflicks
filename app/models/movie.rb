@@ -34,11 +34,25 @@ class Movie < ApplicationRecord
   end
 
   def self.mature_content
-    where("sex = true OR nudity = true OR violence = true")
+    movies = where("sex = true OR nudity = true OR violence = true")
+    return movies unless movies.empty?
+    return []
   end
 
   def self.released_after(year) 
     select("movies.*").where("movies.released > ?", year)
+  end
+
+  def self.exact_search(title)
+    movie = select("movies.*").where("title = ?", title)
+    return movie unless movie.empty? 
+    return []
+  end
+
+  def self.partial_search(title) 
+    movie = select("movies.*").where("title ILIKE ?", "%#{title}%")
+    return movie unless movie.empty?
+    return []
   end
 
 end
