@@ -146,22 +146,106 @@ RSpec.describe "Directors Index Page" do
     end
   end
 
-    it "has a link to sort directors by movie count descending" do 
+  it "has a link to sort directors by movie count descending" do 
+    visit "/directors" 
+
+    expect("Spielberg, Steven").to appear_before("Nolan, Christopher")
+    expect("Nolan, Christopher").to appear_before("Tarantino, Quentin")
+    expect("Tarantino, Quentin").to appear_before("Kubrick, Stanley")
+    expect("Kubrick, Stanley").to appear_before("Scorcese, Martin")
+
+    click_link("sort by movie count")
+
+    expect(current_path).to eq("/directors")
+
+    expect("Kubrick, Stanley").to appear_before("Spielberg, Steven")
+    expect("Spielberg, Steven").to appear_before("Nolan, Christopher")
+    expect("Nolan, Christopher").to appear_before("Tarantino, Quentin")
+    expect("Tarantino, Quentin").to appear_before("Scorcese, Martin")
+  end
+
+  describe "search form" do 
+    it "has a search form where it can find director name matches" do 
       visit "/directors" 
 
-      expect("Spielberg, Steven").to appear_before("Nolan, Christopher")
-      expect("Nolan, Christopher").to appear_before("Tarantino, Quentin")
-      expect("Tarantino, Quentin").to appear_before("Kubrick, Stanley")
-      expect("Kubrick, Stanley").to appear_before("Scorcese, Martin")
+      expect(page).to have_content("Filter by name:")
+      expect(page).to have_field(:find_name)
 
-      click_link("sort by movie count")
+      expect(page).to have_content("Filter by movie count:")
+      expect(page).to have_field(:find_count)
+
+      expect(page).to have_button("Search")
+
+      expect(page).to have_content("Kubrick, Stanley")
+      expect(page).to have_content("Spielberg, Steven")
+      expect(page).to have_content("Nolan, Christopher")
+      expect(page).to have_content("Scorcese, Martin")
+      expect(page).to have_content("Tarantino, Quentin")
+
+      fill_in(:find_name, with: "Stanley Kubrick")
+
+      click_button "Search"
 
       expect(current_path).to eq("/directors")
 
-      expect("Kubrick, Stanley").to appear_before("Spielberg, Steven")
-      expect("Spielberg, Steven").to appear_before("Nolan, Christopher")
-      expect("Nolan, Christopher").to appear_before("Tarantino, Quentin")
-      expect("Tarantino, Quentin").to appear_before("Scorcese, Martin")
+      expect(page).to have_content("Kubrick, Stanley")
+      expect(page).to_not have_content("Spielberg, Steven")
+      expect(page).to_not have_content("Nolan, Christopher")
+      expect(page).to_not have_content("Scorcese, Martin")
+      expect(page).to_not have_content("Tarantino, Quentin")
     end
+
+    it "has a search form where it can find director movie count matches" do
+      visit "/directors" 
+
+      expect(page).to have_content("Kubrick, Stanley")
+      expect(page).to have_content("Movie count: 5")
+      expect(page).to have_content("Spielberg, Steven")
+      expect(page).to have_content("Movie count: 4")
+      expect(page).to have_content("Nolan, Christopher")
+      expect(page).to have_content("Movie count: 3")
+      expect(page).to have_content("Scorcese, Martin")
+      expect(page).to have_content("Movie count: 1")
+      expect(page).to have_content("Tarantino, Quentin")
+      expect(page).to have_content("Movie count: 2")
+
+      fill_in(:find_count, with: 3)
+
+      click_button "Search"
+
+      expect(current_path).to eq("/directors")
+
+      expect(page).to have_content("Nolan, Christopher")
+      expect(page).to have_content("Movie count: 3")
+      
+      expect(page).to_not have_content("Kubrick, Stanley")
+      expect(page).to_not have_content("Movie count: 5")
+      expect(page).to_not have_content("Spielberg, Steven")
+      expect(page).to_not have_content("Movie count: 4")
+      expect(page).to_not have_content("Scorcese, Martin")
+      expect(page).to_not have_content("Movie count: 1")
+      expect(page).to_not have_content("Tarantino, Quentin")
+      expect(page).to_not have_content("Movie count: 2")
+
+      # Test what happens when count doesn't match a director
+
+      fill_in(:find_count, with: 10)
+  
+      click_button "Search"
+  
+      expect(current_path).to eq("/directors")
+  
+      expect(page).to_not have_content("Nolan, Christopher")
+      expect(page).to_not have_content("Movie count: 3")
+      expect(page).to_not have_content("Kubrick, Stanley")
+      expect(page).to_not have_content("Movie count: 5")
+      expect(page).to_not have_content("Spielberg, Steven")
+      expect(page).to_not have_content("Movie count: 4")
+      expect(page).to_not have_content("Scorcese, Martin")
+      expect(page).to_not have_content("Movie count: 1")
+      expect(page).to_not have_content("Tarantino, Quentin")
+      expect(page).to_not have_content("Movie count: 2")
+    end
+  end
 
 end 
