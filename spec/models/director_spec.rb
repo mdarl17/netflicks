@@ -3,11 +3,11 @@ require "rails_helper"
 RSpec.describe Director do 
   before(:each) do 
     @kubrick = Director.create!(name: "Kubrick, Stanley", years_active: 47, best_director: false, created_at: Date.today - 3)
-    @anderson = Director.create!({name: "Anderson, Paul Thomas", years_active: 25, best_director: false, created_at: Date.today - 5})
-    @nolan = Director.create!({name: "Nolan, Christopher", years_active: 19, best_director: false, created_at: Date.today - 1})
-    @spielberg = Director.create!({name: "Spielberg, Steven", years_active: 56, best_director: true, created_at: Date.today})
-    @scorcese = Director.create!({name: "Scorcese, Martin", years_active: 51, best_director: true, created_at: Date.today - 4})
-    @tarantino = Director.create!({name: "Tarantino, Quentin", years_active: 25, best_director: false, created_at: Date.today - 2})
+    @anderson = Director.create!(name: "Anderson, Paul Thomas", years_active: 25, best_director: false, created_at: Date.today - 5)
+    @nolan = Director.create!(name: "Nolan, Christopher", years_active: 19, best_director: false, created_at: Date.today - 1)
+    @spielberg = Director.create!(name: "Spielberg, Steven", years_active: 56, best_director: true, created_at: Date.today)
+    @scorcese = Director.create!(name: "Scorcese, Martin", years_active: 51, best_director: true, created_at: Date.today - 4)
+    @tarantino = Director.create!(name: "Tarantino, Quentin", years_active: 25, best_director: false, created_at: Date.today - 2)
 
     @strangelove = Movie.create!(title: "Dr. Strangelove", released: 1964, rating: 1, sex: false, nudity: false, violence: false, director_id: @kubrick.id)
     @shining = Movie.create!(title: "Shining, The", released: 1980, rating: 2, sex: false, nudity: true, violence: true, director_id: @kubrick.id)
@@ -86,17 +86,31 @@ RSpec.describe Director do
       end
     end
 
-    describe "#find_name" do 
+    describe "#find_exact" do 
       it "can search directors by case-insensitive partial name" do 
-        expect(Director.find_name("spiel")).to eq([@spielberg])
-        expect(Director.find_name("Stanley Kubrick")).to eq([@kubrick])
-        expect(Director.find_name("Anderson, Paul Thomas")).to eq([@anderson])
-        expect(Director.find_name("ander, Pau tho")).to eq([@anderson])
-        expect(Director.find_name("anDer, tHo")).to eq([@anderson])
-        expect(Director.find_name("s")).to eq([@kubrick, @anderson, @nolan, @spielberg, @scorcese])
-        expect(Director.find_name("z")).to eq([])
-        expect(Director.find_name("")).to eq([])
+        expect(Director.find_exact("Kubrick, Stanley")).to eq([@kubrick])
+        expect(Director.find_exact("Kubrick, Stanle")).to eq([])
+        expect(Director.find_exact("Anderson, Paul Thomas")).to eq([@anderson])
+        expect(Director.find_exact("Anderson, Paul Thoma")).to eq([])
+        expect(Director.find_exact("e")).to eq([])
+        expect(Director.find_exact("")).to eq([])
+      end
+    end
+
+    describe "#find_partial" do 
+    # it will return every movie that has a (case insensitive) substring of the user provided value
+      it "can return a director with a case-insensitive, partial name search" do 
+        expect(Director.find_partial("spiel")).to eq([@spielberg])
+        expect(Director.find_partial("Stanley Kubrick")).to eq([@kubrick])
+        expect(Director.find_partial("Anderson, Paul Thomas")).to eq([@anderson])
+        expect(Director.find_partial("ander, Pau tho")).to eq([@anderson])
+        expect(Director.find_partial("anDer, tHo")).to eq([@anderson])
+        expect(Director.find_partial("s")).to eq([@kubrick, @anderson, @nolan, @spielberg, @scorcese])
+        expect(Director.find_partial("q")).to eq([@tarantino])
+        expect(Director.find_partial("z")).to eq([])
+        expect(Director.find_partial("")).to eq([@kubrick, @anderson, @nolan, @spielberg, @scorcese, @tarantino])
       end
     end
   end
+
 end 
