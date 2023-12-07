@@ -12,8 +12,10 @@
 <% end %>
 
 <%= form_with url: "/directors", method: :get, data: {turbo: false}, local: true do |f| %>
-  <%= f.label "Filter by name:" %>
-  <%= f.text_field :find_name %>
+  <%= f.label "Filter by exact name:" %>
+  <%= f.text_field :find_exact %>
+  <%= f.label "Filter by partial name:" %>
+  <%= f.text_field :find_partial %>
   <%= f.label "Filter by movie count:" %>
   <%= f.text_field :find_count %>
   <%= f.submit "Search" %>
