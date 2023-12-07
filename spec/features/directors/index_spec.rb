@@ -165,10 +165,10 @@ RSpec.describe "Directors Index Page" do
   end
 
   describe "search form" do 
-    it "has a search form where it can find director name matches" do 
+    it "has a search form where it can exact matches for director names" do 
       visit "/directors" 
 
-      expect(page).to have_content("Filter by name:")
+      expect(page).to have_content("Filter by exact name:")
       expect(page).to have_field(:find_partial)
 
       expect(page).to have_content("Filter by movie count:")
@@ -204,7 +204,8 @@ RSpec.describe "Directors Index Page" do
       click_button("Search")
 
       expect(current_path).to eq("/directors")
-      
+
+      expect(page).to have_content("Filter by partial name:")
       expect(page).to have_content("Spielberg, Steven")
       expect(page).to have_content("Movie count: 4")
 
