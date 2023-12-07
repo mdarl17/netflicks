@@ -87,6 +87,26 @@ RSpec.describe Movie do
         expect(@kubrick.movies.released_after(1980)).to eq([@eyes_wide_shut, @full_metal_jacket])
       end
     end
+
+    describe "#exact_search" do 
+      it "can return a movie with an exact title search" do 
+        expect(Movie.exact_search("Dr. Strangelove")).to eq([@strangelove])
+        expect(Movie.exact_search("Dr. Strangelov")).to eq([])
+        expect(Movie.exact_search("")).to eq([])
+      end
+    end
+
+    describe "#partial_search" do 
+    # it will return every movie that has a (case insensitive) substring of the user provided value
+      it "can return a movie with a case-insensitive, partial title search" do 
+        expect(Movie.partial_search("Dr. Strangelove")).to eq([@strangelove])
+        expect(Movie.partial_search("Dr. Strangelov")).to eq([@strangelove])
+        expect(Movie.partial_search("Dr")).to eq([@strangelove])
+        expect(Movie.partial_search("")).to eq([@strangelove, @shining, @eyes_wide_shut, @full_metal_jacket, @space_odyssey, @jaws, @dark_knight, @goodfellas, @pulp_fiction])
+    # it will return an empty array when provided one char if none of the movies in the DB contain that char (upper or lowercase)
+        expect(Movie.partial_search("q")).to eq([])
+      end
+    end
   end
 
   describe "instance methods" do 
