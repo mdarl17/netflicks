@@ -29,18 +29,7 @@ class Director < ApplicationRecord
   def self.sort_by_created_at 
     select("directors.*").order("created_at DESC")
   end
-  
-  def self.find_name(name)
-    result_arr = []
-    name.split(" ").each do |str|
-      director = select("directors.*").where("name ILIKE ?", "%#{str}%")
-      if director
-        result_arr.push(director)
-      end
-    end
-    return result_arr.flatten.uniq
-  end
-  
+
   def self.find_count(n)
     director_counts = select("directors.*, COUNT(movies.id) AS movie_count").joins(:movies).group("directors.id")
     director = director_counts.find do |director|
@@ -49,5 +38,26 @@ class Director < ApplicationRecord
     return [director] if director
     return []
   end
+  
+  def self.find_exact(name)
+    director = select("directors.*").where("name = ?", name)
 
+    return director if director 
+    return []
+  end
+
+  def self.find_partial(name)
+    result_arr = []
+    name_arr = name.split(" ")
+    if name_arr.length >= 1
+      name_arr.each do |name| 
+        director = select("directors.*").where("name ILIKE ?", "%#{name.delete(",")}%")
+        return director if director.length >= 1
+        return []
+      end
+    else
+      return Director.all
+    end
+  end
+  
 end
