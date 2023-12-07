@@ -4,7 +4,7 @@
     <% @movies.each do |movie| %>
       <span id=<%= "movie-index-#{movie.id}"%>>
         <%= link_to "edit", "/movies/#{movie.id}/edit" %> <%= link_to "delete", "/movies/#{movie.id}", data: { turbo_method: :delete } %>
-        <h3><%= movie.title %></h3>
+        <h3><%= link_to movie.title, "/movies/#{movie.id}" %></h3>
         <p>Released: <%= movie.released %></p>
         <p>Rating: <%= movie.rating %></p>
         <p>Sex: <%= movie.sex %></p>
@@ -21,7 +21,7 @@
   <br>
   <% unless @movies.empty? %>
     <% @movies.mature_content.each do |movie| %>
-      <h3 style="font-style:italic"><%= movie.title %></h3>
+      <h3 style="font-style:italic"><%= link_to movie.title, "/movies/#{movie.id}" %></h3>
       <p id=<%= "index-#{movie.id}" %> style="margin-bottom: 5px">
         <%= "Released: #{movie.released}" %>&nbsp | &nbsp<%= "Rating: #{movie.rating}" %> <%= link_to "edit", "/movies/#{movie.id}/edit" %> <%= link_to "delete", "/movies/#{movie.id}", data: { turbo_method: :delete } %>
       </p>
