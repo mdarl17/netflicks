@@ -169,7 +169,7 @@ RSpec.describe "Directors Index Page" do
       visit "/directors" 
 
       expect(page).to have_content("Filter by name:")
-      expect(page).to have_field(:find_name)
+      expect(page).to have_field(:find_partial)
 
       expect(page).to have_content("Filter by movie count:")
       expect(page).to have_field(:find_count)
@@ -182,7 +182,7 @@ RSpec.describe "Directors Index Page" do
       expect(page).to have_content("Scorcese, Martin")
       expect(page).to have_content("Tarantino, Quentin")
 
-      fill_in(:find_name, with: "Stanley Kubrick")
+      fill_in(:find_partial, with: "Stanley Kubrick")
 
       click_button "Search"
 
@@ -195,6 +195,27 @@ RSpec.describe "Directors Index Page" do
       expect(page).to_not have_content("Nolan, Christopher")
       expect(page).to_not have_content("Scorcese, Martin")
       expect(page).to_not have_content("Tarantino, Quentin")
+    end
+
+    it "can do a case-insensitive partial name search" do 
+      visit "/directors" 
+
+      fill_in(:find_partial, with: "spiel")
+      click_button("Search")
+
+      expect(current_path).to eq("/directors")
+      
+      expect(page).to have_content("Spielberg, Steven")
+      expect(page).to have_content("Movie count: 4")
+
+      expect(page).to_not have_content("Nolan, Christopher")
+      expect(page).to_not have_content("Movie count: 3")
+      expect(page).to_not have_content("Kubrick, Stanley")
+      expect(page).to_not have_content("Movie count: 5")
+      expect(page).to_not have_content("Scorcese, Martin")
+      expect(page).to_not have_content("Movie count: 1")
+      expect(page).to_not have_content("Tarantino, Quentin")
+      expect(page).to_not have_content("Movie count: 2")
     end
 
     it "has a search form where it can find director movie count matches" do
@@ -243,27 +264,6 @@ RSpec.describe "Directors Index Page" do
       expect(page).to_not have_content("Movie count: 5")
       expect(page).to_not have_content("Spielberg, Steven")
       expect(page).to_not have_content("Movie count: 4")
-      expect(page).to_not have_content("Scorcese, Martin")
-      expect(page).to_not have_content("Movie count: 1")
-      expect(page).to_not have_content("Tarantino, Quentin")
-      expect(page).to_not have_content("Movie count: 2")
-    end
-
-    it "can do a case-insensitive partial name search" do 
-      visit "/directors" 
-
-      fill_in(:find_name, with: "spiel")
-      click_button("Search")
-
-      expect(current_path).to eq("/directors")
-      
-      expect(page).to have_content("Spielberg, Steven")
-      expect(page).to have_content("Movie count: 4")
-
-      expect(page).to_not have_content("Nolan, Christopher")
-      expect(page).to_not have_content("Movie count: 3")
-      expect(page).to_not have_content("Kubrick, Stanley")
-      expect(page).to_not have_content("Movie count: 5")
       expect(page).to_not have_content("Scorcese, Martin")
       expect(page).to_not have_content("Movie count: 1")
       expect(page).to_not have_content("Tarantino, Quentin")
